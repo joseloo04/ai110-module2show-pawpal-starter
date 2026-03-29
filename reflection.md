@@ -5,7 +5,12 @@
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+    -A pet owner needs to track care tasks and get a daily plan. So, there is a person(owner), they have a pet, the pet needs care tasks done, and something needs to organize those task into plan
 - What classes did you include, and what responsibilities did you assign to each?
+    -Owner: needs to know who they are and how much time they have in a day. They don't really do mch on their own, they just hold that info.
+    -Pet: needs to know its name, what kind of animal it is, maybe its age. Same thing, mostly a data holder thate belongs to an Owner.
+    -Task: needs to know what it is (a walk, feeding, meds), how long it takes, and how important it is. It belongs to pet.
+    -Scheduler: this one actually does something. It takes the Owner's availablle time and the list of Tasks, and figures out what fits and in what order. This is where the logic lives.
 
 **b. Design changes**
 
