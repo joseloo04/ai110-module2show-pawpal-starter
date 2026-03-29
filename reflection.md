@@ -1,7 +1,7 @@
 # PawPal+ Project Reflection
 
 ## 1. System Design
-
+    A user should be able to add a pet, scedule a walk or feeding, and see today's tasks
 **a. Initial design**
 
 - Briefly describe your initial UML design.
@@ -15,8 +15,9 @@
 **b. Design changes**
 
 - Did your design change during implementation?
+    -Not much, I made sure to iterate about 5 times to ensure that my Mermaid.js was sound to begin with. That way avoid surprises in later production.
 - If yes, describe at least one change and why you made it.
-
+    -Overall, I did change some things in Mermaid.js that were substancial. At first Copilot suggested to handle available time on the owner's class but I went against it because all logic must happen in Scheduler.
 ---
 
 ## 2. Scheduling Logic and Tradeoffs
