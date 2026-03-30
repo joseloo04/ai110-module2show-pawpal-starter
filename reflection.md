@@ -25,13 +25,15 @@
 **a. Constraints and priorities**
 
 - What constraints does your scheduler consider (for example: time, priority, preferences)?
+    My scheduler considers two constraints time and priority(high, medium, and low)
 - How did you decide which constraints mattered most?
-
+    Time is the one that matters the most since an Owner physically cannot exceed it. Priority determines the order tasks are selected within that limit. Time is more binary(Fits/Doesn't fit), priority is ranking based.
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
+    The tradeoff my scheduler does is a greedy selection by priority over optimal packing time wise. The scheduler pinks task in priority order and stops when time runs out.
 - Why is that tradeoff reasonable for this scenario?
-
+    This is reasonable here becase for per care, a high priority task like medication or poop time genuinely should not be skipped to fit in more grooming sessions.
 ---
 
 ## 3. AI Collaboration
