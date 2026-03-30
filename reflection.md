@@ -34,6 +34,8 @@
     The tradeoff my scheduler does is a greedy selection by priority over optimal packing time wise. The scheduler pinks task in priority order and stops when time runs out.
 - Why is that tradeoff reasonable for this scenario?
     This is reasonable here becase for per care, a high priority task like medication or poop time genuinely should not be skipped to fit in more grooming sessions.
+
+    My conflict detection uses exact time matching, two tasks only conflict if they share the identical scheduled_time string. This means a task at 08:00 lasting 30 minutes and a task at 08:15 lasting 20 minutes would not be flagged as a conflict even though they overlap in reality. This tradeoff keeps the implementation simple and readable, avoiding the need to convert times to minute ranges and check for overlapping intervals. For a basic pet care scheduler this is acceptable, but a production version would need duration-aware overlap detection.
 ---
 
 ## 3. AI Collaboration
@@ -41,12 +43,17 @@
 **a. How you used AI**
 
 - How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
+    I used Copilot Chat to generate the initial Mermaid.js UML, then iterated on it about 5 times refininig the diagram before touching any code. Code generation. I used Agent Mode to generate the skeleton in pawpal_system.py, then flesh out the full implementation, then wire app.py to the backend.
+    Debugging. I did not know of conftest.py before this project so I asked AI what was the use of it.
 - What kinds of prompts or questions were most helpful?
+    Specific and structured prompts. I gave Copilot exact task to do, one at a time with exact names, attributes, and responsibilities spelled out clearly.
 
 **b. Judgment and verification**
 
 - Describe one moment where you did not accept an AI suggestion as-is.
+    Copilot originally suggested putting time-checking logic on the owner class. I pushed back because I recognized that logic belongs in Scheduler, not in a data holder.
 - How did you evaluate or verify what the AI suggested?
+    Copilot generated code that modified a list while iterating over i with a for loop. I caught that as a bug and hat fixed with enumarate and pop instead.
 
 ---
 

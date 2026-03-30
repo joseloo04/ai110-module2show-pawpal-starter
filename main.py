@@ -12,14 +12,14 @@ def main():
     owner.add_pet(cat)
 
     # Add tasks to dog (Max)
-    dog.add_task(Task(name="Morning Walk", duration_minutes=30, priority="HIGH"))
-    dog.add_task(Task(name="Feeding", duration_minutes=10, priority="HIGH"))
-    dog.add_task(Task(name="Playtime", duration_minutes=20, priority="MEDIUM"))
+    dog.add_task(Task(name="Morning Walk", duration_minutes=30, priority="HIGH", scheduled_time="08:00", recurrence="daily"))
+    dog.add_task(Task(name="Feeding", duration_minutes=10, priority="HIGH", scheduled_time="08:30", recurrence="none"))
+    dog.add_task(Task(name="Playtime", duration_minutes=20, priority="MEDIUM", scheduled_time="10:00", recurrence="none"))
 
     # Add tasks to cat (Whiskers)
-    cat.add_task(Task(name="Litter Box Cleaning", duration_minutes=15, priority="HIGH"))
-    cat.add_task(Task(name="Feeding", duration_minutes=5, priority="HIGH"))
-    cat.add_task(Task(name="Grooming", duration_minutes=25, priority="MEDIUM"))
+    cat.add_task(Task(name="Litter Box Cleaning", duration_minutes=15, priority="HIGH", scheduled_time="08:30", recurrence="none"))
+    cat.add_task(Task(name="Feeding", duration_minutes=5, priority="HIGH", scheduled_time="08:30", recurrence="none"))
+    cat.add_task(Task(name="Grooming", duration_minutes=25, priority="MEDIUM", scheduled_time="14:00", recurrence="none"))
 
     # Create scheduler with the owner
     scheduler = Scheduler(owner)
@@ -76,6 +76,64 @@ def main():
                     break
             pet_info = f" - {pet_name}" if pet_name else ""
             print(f"   - {task.name}{pet_info} ({task.duration_minutes} min)")
+
+    print("\n" + "=" * 50)
+
+    # Feature 1: Sorting by time
+    print("\n" + "=" * 50)
+    print("FEATURE 1: SORTING BY TIME")
+    print("=" * 50)
+    sorted_by_time = scheduler.sort_tasks_by_time()
+    if sorted_by_time:
+        for task in sorted_by_time:
+            print(f"  {task.scheduled_time} - {task.name}")
+    else:
+        print("  No tasks to sort")
+
+    # Feature 2: Conflict detection
+    print("\n" + "=" * 50)
+    print("FEATURE 2: CONFLICT DETECTION")
+    print("=" * 50)
+    conflicts = scheduler.detect_time_conflicts()
+    if conflicts:
+        for time_slot, conflicting_tasks in sorted(conflicts.items()):
+            print(f"\n⚠ WARNING: Time slot {time_slot} has {len(conflicting_tasks)} overlapping tasks:")
+            for task in conflicting_tasks:
+                print(f"     - {task.name}")
+    else:
+        print("  No time conflicts detected")
+
+    # Feature 3: Filtering by completion
+    print("\n" + "=" * 50)
+    print("FEATURE 3: FILTERING BY COMPLETION")
+    print("=" * 50)
+    # Mark one task as complete (Litter Box Cleaning)
+    litter_task = cat.tasks[0]  # Litter Box Cleaning is the first task added to cat
+    print(f"Marking task complete: {litter_task.name}")
+    litter_task.mark_complete()
+
+    incomplete_tasks = scheduler.filter_tasks_by_completion(False)
+    print(f"\nIncomplete tasks ({len(incomplete_tasks)} remaining):")
+    for task in incomplete_tasks:
+        print(f"  - {task.name} ({task.priority})")
+
+    # Feature 4: Recurring tasks
+    print("\n" + "=" * 50)
+    print("FEATURE 4: RECURRING TASKS")
+    print("=" * 50)
+    morning_walk = dog.tasks[0]  # Morning Walk is the first task added to dog
+    print(f"Completing daily recurring task: {morning_walk.name}")
+    new_task = morning_walk.mark_complete(pet=dog)
+
+    if new_task:
+        print(f"✓ New occurrence created automatically!")
+        print(f"  Original task: {morning_walk.name} [completed: {morning_walk.completed}]")
+        print(f"  New task: {new_task.name} [completed: {new_task.completed}]")
+
+    print(f"\n{dog.name}'s updated task list ({len(dog.tasks)} total):")
+    for i, task in enumerate(dog.tasks, 1):
+        status = "✓ completed" if task.completed else "○ incomplete"
+        print(f"  {i}. {task.name} - {status} [recurrence: {task.recurrence}]")
 
     print("\n" + "=" * 50)
 
